@@ -1,0 +1,141 @@
+:host {
+  height: 100%;
+}
+.relative {
+  position: absolute;
+  display: flex;
+  width: calc(100% - 40px);
+  height: calc(100% - 80px);
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  position: absolute;
+  top: 10%;
+  width: 80%;
+  max-width: 500px;
+  animation: 30s ease-in-out infinite alternate move;
+}
+.wrapper {
+  position: absolute;
+  width: 100%;
+  padding-top: 50%;
+}
+.bottom-a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #cfcfcf;
+  clip-path: polygon(0 8%,10% 5%,89% 87%, 83% 89%);
+}
+.front-a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #aaa;
+  clip-path: polygon(0 3%,10% 0, 10% 5%, 0 8%)
+}
+.side-a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #eee;
+  clip-path: polygon(10% 0,89% 84%, 89% 87%, 10% 5%)
+}
+
+.bottom-b {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ddd;
+  clip-path: polygon(100% 25%,95% 19%,0% 75%, 4% 78%);
+}
+.front-b {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #eee;
+  clip-path: polygon(100% 25%,100% 22%,95% 15%, 95% 19%)
+}
+.side-b {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #bcbcbc;
+  clip-path: polygon(95% 15%,0% 72%, 0% 75%, 95% 19%);
+}
+
+@keyframes move {
+  0% {
+    transform: rotateX(10deg) rotateZ(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: rotateX(25deg) rotateZ(-10deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(10deg) rotateZ(5deg) rotateY(0deg);
+  }
+  75% {
+    transform: rotateX(45deg) rotateZ(-10deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(25deg) rotateZ(-5deg) rotateY(0deg);
+  }
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(2px);
+}
+
+.jumbotron {
+  width: 100%;
+  max-width: 600px;
+  font-size: 1rem;
+}
+
+.jumbotron * {
+  text-align: center;
+}
+
+.main-title {
+  font-size: 3rem;
+  line-height: 3rem;
+}
+
+.title-g,
+.title-o {
+  color: #4A148C;
+}
+
+.title-e {
+  color: #7B1FA2;
+}
+
+.title-p,
+.title-t {
+  color: #8E24AA;
+}
+
+.sub-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-style: italic;
+}

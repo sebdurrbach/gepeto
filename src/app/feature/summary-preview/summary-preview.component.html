@@ -1,0 +1,13 @@
+<h1>Preview</h1>
+<div *ngIf="summary; else empty">
+  <button mat-button class="mat-elevation-z2" color="primary" (click)="export()">Export</button>
+  <div class="preview-wrapper">
+    <pre class="preview" [innerHTML]="summary"></pre>
+  </div>
+</div>
+<ng-template #empty>
+  <div>
+    <p>Nothing to preview.</p>
+    <p>You have to generate a note first.</p>
+  </div>
+</ng-template>
