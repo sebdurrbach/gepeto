@@ -9,8 +9,15 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
+/**
+ * Get a summary from OpenAI API
+ * Set the maximum number of tokens with a 10% margin to avoid API error
+ * 
+ * @param { string } url 
+ * @param { boolean } withCode 
+ * @returns 
+ */
 async function getSummary(url, withCode) {
-  console.log('getSummary', configuration.apiKey);
   // Prompt model with the URL
   let prompt = `Summarize this article : ${url}. The output must be in markdown format and use Obsidian convention. Add a link on a new line. Add tags including a draft tag.`;
 
@@ -18,9 +25,10 @@ async function getSummary(url, withCode) {
     prompt += ` Add a detailed code example.`;
   }
 
+  // TODO : Get the max_tokens from user or store
+
   // Set the maximum number of tokens with a 10% margin to avoid API error
   let max_tokens = 4000 - Math.ceil(prompt.split(" ").length * 1.1);
-  console.log('max_tokens', max_tokens);
 
   const completion = await openai.createCompletion({
     model: "text-davinci-003",

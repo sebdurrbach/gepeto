@@ -19,13 +19,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // @ts-ignore
     window.api.receive("fromCredentials", (data: boolean) => {
-      console.log('credentials', data);
       this.sumService.setHasCredentials(data);
     });
 
     // @ts-ignore
     window.api.receive("fromSummary", (data: string) => {
-      console.log(data);
       if (data) {
         this.zone.run(() => {
           // const content = data.replace(/\\n/g, '<br />');
@@ -38,7 +36,6 @@ export class AppComponent implements OnInit {
 
     // @ts-ignore
     window.api.receive("fromExport", (data: string) => {
-      console.log(data);
       if (data) {
         this.zone.run(() => {
           this.router.navigate(['/success']);
@@ -48,7 +45,6 @@ export class AppComponent implements OnInit {
 
     // @ts-ignore
     window.api.receive("fromFilePath", (data: string) => {
-      console.log(data);
       if (data) {
         this.zone.run(() => {
           this.sumService.setFilePath(data);

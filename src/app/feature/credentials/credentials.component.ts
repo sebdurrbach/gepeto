@@ -54,7 +54,6 @@ export class CredentialsComponent implements OnInit, OnDestroy {
   }
 
   onFileChange(event: any) {
-    console.log(event);
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       if (file.path && file.name) {
