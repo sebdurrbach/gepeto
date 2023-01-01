@@ -52,7 +52,7 @@ export class CredentialsComponent implements OnInit, OnDestroy {
   }
 
   changeKey() {
-    this.hasCredentials$ = of(false);
+    this.sumService.setHasCredentials(false);
   }
 
   onFileChange(event: any) {
