@@ -8,7 +8,7 @@ Gepeto uses GPT-3 (text-davinci-003 algorithm) from OpenAI to summarize articles
 
 You can then preview the result in a pre-processed markdown format, export it as a .md file and open it with the default system application.
 
-Gepeto was built with Electron and Angular.
+Gepeto was built with Electron and Angular as a personal mini-project.
 
 ## Configuration
 
