@@ -77,3 +77,13 @@ This will create a NSIS Windows installer in the build folder.
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## Improvements to be made
+
+- Code architecture both on the Angular and Electron side
+- Typescript on the backend
+- Error handling
+- Add more options to the configuration
+- Add more options for the note generation
+- Add a dark mode
+- Design improvements
