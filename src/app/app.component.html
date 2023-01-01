@@ -5,7 +5,7 @@
 </nav>
 
 <div class="main">
-  <div class="page">
-    <router-outlet></router-outlet>
+  <div class="router-wrapper" [@fadeAnimation]="getRouteAnimationData(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
   </div>
 </div>

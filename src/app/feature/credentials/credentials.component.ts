@@ -1,3 +1,4 @@
+import { fadeAnimation } from './../../utils/fade-animation';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
@@ -8,7 +9,8 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-credentials',
   templateUrl: './credentials.component.html',
-  styleUrls: ['./credentials.component.css']
+  styleUrls: ['./credentials.component.css'],
+  animations: [fadeAnimation],
 })
 export class CredentialsComponent implements OnInit, OnDestroy {
 
@@ -26,11 +28,11 @@ export class CredentialsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.sumService.filePath$.pipe(
+    this.sumService.folderPath$.pipe(
       takeUntil(this.destroy$),
-    ).subscribe(filePath => {
-      if (filePath) {
-        this.defaultLocation.setValue(filePath);
+    ).subscribe(folderPath => {
+      if (folderPath) {
+        this.defaultLocation.setValue(folderPath);
       }
     });
   }
@@ -66,7 +68,7 @@ export class CredentialsComponent implements OnInit, OnDestroy {
   saveLocation() {
     if (this.defaultLocation.valid && this.defaultLocation.value && this.defaultLocation.value.length > 0) {
       // @ts-ignore
-      window.api.send('toFilePath', this.defaultLocation.value);
+      window.api.send('toFolderPath', this.defaultLocation.value);
     } else {
       this.defaultLocation.markAsTouched();
     }

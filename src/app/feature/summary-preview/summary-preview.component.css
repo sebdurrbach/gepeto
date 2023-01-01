@@ -1,4 +1,3 @@
-
 .preview-wrapper {
   width: 100%;
   max-width: 600px;
@@ -7,3 +6,13 @@
 .preview {
   white-space: pre-line;
 }
+
+.loader {
+  max-width: 150px;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+

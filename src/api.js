@@ -41,26 +41,78 @@ async function getSummary(url, withCode) {
     echo: false,
   });
 
-  return JSON.stringify(completion.data.choices[0].text);
+  const rawText = completion.data.choices[0].text;
+  const trimText = rawText.replace(/^\n/, "");
+  const fileName = getFileName(trimText);
+
+  return { fileName, text: JSON.stringify(trimText) };
 }
 
+/**
+ * Get a file name from the API response by extracting the main title
+ * If there is no main title, name it "draft-gepeto" with the current datetime
+ * 
+ * @param { string } text 
+ * @returns { string } The file name
+ */
+function getFileName(text) {
+  // Split the summary into lines
+  const summaryLines = text.split("\n");
+  // Set the file name to the main title
+  let fileName;
+  const mainTitle = summaryLines.find(line => line.startsWith("# "));
+  if (mainTitle) {
+    // Remove the "#" and replace spaces and special characters with "-"
+    fileName = mainTitle.replace("# ", "").replace(/ /g, " ").replace(/[^a-zA-Z0-9-]/g, " ");
+  } else {
+    // If there is no main title, name it "draft-gepeto" with the current datetime
+    const date = new Date();
+    fileName = `draft-gepeto-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
+  }
+  return fileName;
+}
+
+/**
+ * @returns { boolean } True if the API key is set
+ */
 function hasApiKey() {
   return !!store.get('apiKey');
 }
 
+/**
+ * Save the API key to the store
+ */
 function saveApiKey(apiKey) {
   store.set('apiKey', apiKey);
   openai.configuration.apiKey = apiKey;
 }
 
-function getFilePath(app) {
-  return store.get('filePath') || app.getPath("documents");
+/**
+ * Get the folder path from the store
+ * or the default documents folder
+ * 
+ * @param {*} app 
+ * @returns 
+ */
+function getFolderPath(app) {
+  return store.get('folderPath') || app.getPath("documents");
 }
 
-function saveFilePath(filePath) {
-  store.set('filePath', filePath);
+/**
+ * Save the folder path to the store
+ * 
+ * @param { string } folderPath 
+ */
+function saveFolderPath(folderPath) {
+  store.set('folderPath', folderPath);
 }
 
+/**
+ * Get the window size from the store
+ * or the default size (900, 600)
+ * 
+ * @returns { number[] } The window size
+ */
 function getWinSize() {
   const defaultSize = [900, 600];
   const size = store.get('winSize');
@@ -72,6 +124,11 @@ function getWinSize() {
   }
 }
 
+/**
+ * Save the window size to the store
+ * 
+ * @param { number[] } size 
+ */
 function saveWinSize(size) {
   store.set('winSize', size);
 }
@@ -82,6 +139,6 @@ module.exports = {
   saveApiKey,
   getWinSize,
   saveWinSize,
-  getFilePath,
-  saveFilePath,
+  getFolderPath,
+  saveFolderPath,
 };

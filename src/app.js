@@ -1,7 +1,15 @@
-const { app, ipcMain, BrowserWindow } = require('electron');
+const { app, ipcMain, shell, BrowserWindow } = require('electron');
 const fs = require("fs");
 const path = require("path");
-const { getSummary, hasApiKey, saveApiKey, getWinSize, saveWinSize, getFilePath, saveFilePath } = require("./api");
+const { 
+  getSummary, 
+  hasApiKey, 
+  saveApiKey, 
+  getWinSize, 
+  saveWinSize, 
+  getFolderPath, 
+  saveFolderPath 
+} = require("./api");
 
 let win;
 
@@ -31,7 +39,7 @@ function createWindow() {
    */
   win.webContents.once('dom-ready', () => {
     win.webContents.send('fromCredentials', hasApiKey());
-    win.webContents.send('fromFilePath', getFilePath(app));
+    win.webContents.send('fromFolderPath', getFolderPath(app));
   });
 
   win.on('closed', function () {
@@ -65,16 +73,16 @@ ipcMain.on("toCredentials", async (event, apiKey) => {
  * Save the file path and send it back to the renderer process if ok
  * Otherwise send the default file path
  */
-ipcMain.on("toFilePath", async (event, filePath) => {
+ipcMain.on("toFolderPath", async (event, folderPath) => {
   // Verify that the path is valid
   try {
-    fs.accessSync(filePath, fs.constants.W_OK);
+    fs.accessSync(folderPath, fs.constants.W_OK);
   } catch (err) {
-    win?.webContents.send("fromFilePath", getFilePath(app));
+    win?.webContents.send("fromFolderPath", getFolderPath(app));
     return;
   }
-  saveFilePath(filePath);
-  win?.webContents.send("fromFilePath", getFilePath(app));
+  saveFolderPath(folderPath);
+  win?.webContents.send("fromFolderPath", getFolderPath(app));
 });
 
 /**
@@ -86,24 +94,37 @@ ipcMain.on("toFilePath", async (event, filePath) => {
  * If the summary is empty, send an error message
  */
 ipcMain.on("toSummary", async (event, args) => {
+  // Send a message to the renderer process to show the loading spinner
+  win?.webContents.send("fromPendingSummary", true);
+
+  const response = {
+    fileName: '',
+    text: '',
+  }
+
   if (!hasApiKey()) {
-    win?.webContents.send("fromSummary", "You must provide an API key");
+    response.text = "You must provide an API key";
+    win?.webContents.send("fromSummary", response);
     return;
   }
 
   try {
     new URL(args.url);
   } catch (err) {
-    win?.webContents.send("fromSummary", "The URL is not valid");
+    response.text = "The URL is not valid";
+    win?.webContents.send("fromSummary", response);
     return;
   }
-
-  const text = await getSummary(args.url, args.withCode);
+  
+  const { fileName, text } = await getSummary(args.url, args.withCode);
 
   if (text) {
-    win?.webContents.send("fromSummary", text);
+    response.fileName = fileName;
+    response.text = text;
+    win?.webContents.send("fromSummary", response);
   } else {
-    win?.webContents.send("fromSummary", "The summary has been returned empty");
+    response.text = "The summary has been returned empty";
+    win?.webContents.send("fromSummary", response);
   }
 });
 
@@ -119,20 +140,9 @@ ipcMain.on("toSummary", async (event, args) => {
  */
 ipcMain.on("toExport", async (event, args) => {
   // Split the summary into lines
-  const summaryLines = args.summary.split("\n");
-  // Set the file name to the main title
-  let fileTitle;
-  const mainTitle = summaryLines.find(line => line.startsWith("# "));
-  if (mainTitle) {
-    // Remove the "#" and replace spaces and special characters with "-"
-    fileTitle = mainTitle.replace("# ", "").replace(/ /g, " ").replace(/[^a-zA-Z0-9-]/g, " ");
-  } else {
-    // If there is no main title, name it "draft-gepeto" with the current datetime
-    const date = new Date();
-    fileTitle = `draft-gepeto-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
-  }
+  const summaryLines = args.text.split("\n");
 
-  const filePath = path.join(getFilePath(app), fileTitle + ".md");
+  const filePath = path.join(getFolderPath(app), args.fileName + ".md");
   var logger = fs.createWriteStream(filePath, {
     flags: 'w' // 'w' means writing in a new file
   });
@@ -157,11 +167,19 @@ ipcMain.on("toExport", async (event, args) => {
     }
     win?.webContents.send("fromExport", filePath);
   } catch (err) {
-    win?.webContents.send("fromExport", err);
+    win?.webContents.send("fromExport", null);
   } finally {
     logger.end();
   }
-  
+});
+
+ipcMain.on("toOpenFile", async (event, filePath) => {
+  // Open the file with the default application, if error, open the folder
+  try {
+    shell.openPath(filePath);
+  } catch (err) {
+    shell.openPath(getFolderPath(app));
+  }
 });
 
 

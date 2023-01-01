@@ -1,4 +1,10 @@
-<h1>Operation succeed !</h1>
-<div>
-  <p>Your file has been addeed</p>
+<div class="page">
+  <h1>Success !</h1>
+  <h2>Your file as been added here :</h2>
+  <div>
+    <pre>{{ filePath }}</pre>
+  </div>
+  <div class="flex-line">
+    <button mat-button class="mat-elevation-z2" color="primary" (click)="openFile()">Open</button>
+  </div>
 </div>

@@ -1,9 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
 * { box-sizing: border-box; }
+
 html, body { height: 100%; }
+
 body { margin: 0; color: #333; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 h1 { font-size: 2rem; }
+
+.mb-40 { margin-bottom: 40px !important; }
+.mb-32 { margin-bottom: 32px !important; }
+.mb-24 { margin-bottom: 24px !important; }
+.mb-16 { margin-bottom: 16px !important; }
+.mb-8 { margin-bottom: 8px !important; }
+.mb-0 { margin-bottom: 0 !important; }
 
 .navigation {
   position: fixed;
@@ -19,33 +29,16 @@ h1 { font-size: 2rem; }
   padding-top: 36px;
 }
 
+.router-wrapper {
+  position: relative; 
+  height: 100%; 
+  overflow: hidden;
+}
+
 .page {
   height: 100%;
   padding: 24px;
-}
-
-.mb-40 {
-  margin-bottom: 40px !important;
-}
-
-.mb-32 {
-  margin-bottom: 32px !important;
-}
-
-.mb-24 {
-  margin-bottom: 24px !important;
-}
-
-.mb-16 {
-  margin-bottom: 16px !important;
-}
-
-.mb-8 {
-  margin-bottom: 8px !important;
-}
-
-.mb-0 {
-  margin-bottom: 0 !important;
+  overflow: auto;
 }
 
 .form-field {

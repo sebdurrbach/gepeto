@@ -1,14 +1,15 @@
-<h1>Browse an article</h1>
+<div class="page">
+  <h1>Browse an article</h1>
 <div *ngIf="hasNoCredentials" class="no-creds">
   <a mat-button class="mat-elevation-z2" color="accent" routerLink="/credentials">You have to configure your API key first</a>
 </div>
 <mat-form-field class="form-field">
-  <input matInput placeholder="The url of an article" type="url" [formControl]="urlControl" >
-  <mat-icon matSuffix>description</mat-icon>
+  <input matInput placeholder="The url of an article" type="url" [formControl]="urlControl" />
 </mat-form-field>
 <div>
   <mat-checkbox [formControl]="codeControl">Include a code example</mat-checkbox>
 </div>
 <div class="sum-wrapper">
   <button mat-button class="mat-elevation-z2" color="primary" [disabled]="hasNoCredentials" (click)="summarize()">Summarize</button>
+</div>
 </div>

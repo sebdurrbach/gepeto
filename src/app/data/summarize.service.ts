@@ -1,37 +1,58 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Summary } from './summary';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SummarizeService {
 
+  // CREDENTIALS
+
   private hasCredentialsSubject = new BehaviorSubject<boolean>(false);
-  hasCredentials$ = this.hasCredentialsSubject.asObservable();
+  readonly hasCredentials$ = this.hasCredentialsSubject.asObservable();
 
   setHasCredentials(hasCredentials: boolean) {
     this.hasCredentialsSubject.next(hasCredentials);
   }
 
-  private filePathSubject = new BehaviorSubject<string>('');
-  filePath$ = this.filePathSubject.asObservable();
+  private folderPathSubject = new BehaviorSubject<string>('');
+  readonly folderPath$ = this.folderPathSubject.asObservable();
 
-  setFilePath(filePath: string) {
-    this.filePathSubject.next(filePath);
+  setFolderPath(folderPath: string) {
+    this.folderPathSubject.next(folderPath);
   }
 
+  // SUMMARY
+
   private lastSearchSubject = new BehaviorSubject<string>('');
-  lastSearch$ = this.lastSearchSubject.asObservable();
+  readonly lastSearch$ = this.lastSearchSubject.asObservable();
 
   setLastSearch(lastSearch: string) {
     this.lastSearchSubject.next(lastSearch);
   }
 
-  private summarySubject = new BehaviorSubject<string>('');
-  summary$ = this.summarySubject.asObservable();
+  // PREVIEW - EXPORT
 
-  setSummary(summary: string) {
+  private summarySubject = new BehaviorSubject<Summary | null>(null);
+  readonly summary$ = this.summarySubject.asObservable();
+
+  setSummary(summary: Summary) {
     this.summarySubject.next(summary);
+  }
+
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  readonly loading$ = this.loadingSubject.asObservable();
+
+  setLoading(loading: boolean) {
+    this.loadingSubject.next(loading);
+  }
+
+  private filePathSubject = new BehaviorSubject<string>('');
+  readonly filePath$ = this.filePathSubject.asObservable();
+
+  setFilePath(filePath: string) {
+    this.filePathSubject.next(filePath);
   }
 
 }

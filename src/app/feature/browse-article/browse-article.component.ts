@@ -64,6 +64,8 @@ export class BrowseArticleComponent implements OnInit {
       // @ts-ignore
       window.api.send('toSummary', { url, withCode });
       this.sumService.setLastSearch(url);
+      // Reset the file path after a successful search
+      this.sumService.setFilePath('');
     } else {
       this.urlControl.markAsTouched();
     }

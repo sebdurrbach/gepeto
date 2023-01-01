@@ -1,13 +1,30 @@
-<h1>Preview</h1>
-<div *ngIf="summary; else empty">
-  <button mat-button class="mat-elevation-z2" color="primary" (click)="export()">Export</button>
-  <div class="preview-wrapper">
-    <pre class="preview" [innerHTML]="summary"></pre>
-  </div>
+<div class="page">
+  <h1>Preview</h1>
+  <!-- LOADER -->
+  <ng-container *ngIf="loading$ | async; else preview">
+    <h2>Loading</h2>
+    <div class="loader">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
+  <!-- PREVIEW -->
+  <ng-template #preview>
+    <ng-container *ngIf="text; else empty">
+      <!-- EXPORT CTA -->
+      <div class="flex-line">
+        <button mat-button class="mat-elevation-z2 mb-8" color="primary" (click)="export()">Export as</button>
+        <mat-form-field class="form-field w-80" *ngIf="fileName">
+          <input matInput type="text" [formControl]="fileName" placeholder="File name" />
+        </mat-form-field>
+      </div>
+      <!-- PREVIEW CONTENT -->
+      <div class="preview-wrapper">
+        <pre class="preview" [innerHTML]="text"></pre>
+      </div>
+    </ng-container>
+  </ng-template>
+  <!-- EMPTY -->
+  <ng-template #empty>
+    <h2>Nothing yet...</h2>
+  </ng-template>
 </div>
-<ng-template #empty>
-  <div>
-    <p>Nothing to preview.</p>
-    <p>You have to generate a note first.</p>
-  </div>
-</ng-template>

@@ -1,11 +1,13 @@
 import { SummarizeService } from 'src/app/data/summarize.service';
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChildrenOutletContexts, OutletContext, Router, RouterOutlet } from '@angular/router';
+import { fadeAnimation } from './utils/fade-animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations: [fadeAnimation],
 })
 export class AppComponent implements OnInit {
   title = 'gepeto';
@@ -17,41 +19,61 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // @ts-ignore
-    window.api.receive("fromCredentials", (data: boolean) => {
-      this.sumService.setHasCredentials(data);
+      // @ts-ignore
+    window.api?.receive("fromCredentials", (data: boolean) => {
+      this.zone.run(() => {
+        this.sumService.setHasCredentials(data);
+      });
     });
 
     // @ts-ignore
-    window.api.receive("fromSummary", (data: string) => {
+    window.api?.receive("fromSummary", (data: Summary) => {
       if (data) {
         this.zone.run(() => {
-          // const content = data.replace(/\\n/g, '<br />');
-          const summary = JSON.parse(data);
-          this.sumService.setSummary(summary);
+          data.text = JSON.parse(data.text);
+          this.sumService.setSummary(data);
+          this.sumService.setLoading(false);
+        });
+      }
+    });
+
+    // @ts-ignore
+    window.api?.receive("fromExport", (data: string) => {
+      if (data) {
+        this.zone.run(() => {
+          this.sumService.setFilePath(data);
+          this.router.navigate(['/success']);
+        });
+      } else {
+        this.zone.run(() => {
+          this.router.navigate(['/error']);
+        });
+      }
+    });
+
+    // @ts-ignore
+    window.api?.receive("fromFolderPath", (data: string) => {
+      if (data) {
+        this.zone.run(() => {
+          this.sumService.setFolderPath(data);
+        });
+      }
+    });
+
+    // @ts-ignore
+    window.api?.receive("fromPendingSummary", (data: string) => {
+      if (data) {
+        this.zone.run(() => {
+          this.sumService.setLoading(true);
           this.router.navigate(['/preview']);
         });
       }
     });
 
-    // @ts-ignore
-    window.api.receive("fromExport", (data: string) => {
-      if (data) {
-        this.zone.run(() => {
-          this.router.navigate(['/success']);
-        });
-      }
-    });
+  }
 
-    // @ts-ignore
-    window.api.receive("fromFilePath", (data: string) => {
-      if (data) {
-        this.zone.run(() => {
-          this.sumService.setFilePath(data);
-        });
-      }
-    });
-
+  getRouteAnimationData(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'] || 'start';
   }
   
 }

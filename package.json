@@ -1,14 +1,17 @@
 {
   "name": "gepeto",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "src/app.js",
+  "author": "Sebastien Durrbach",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng build --base-href ./ && electron .",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "dist": "electron-builder"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +35,7 @@
     "@angular-devkit/build-angular": "^14.2.9",
     "@angular/cli": "~14.2.9",
     "@angular/compiler-cli": "^14.2.0",
+    "@electron-forge/cli": "^6.0.4",
     "@types/jasmine": "~4.0.0",
     "electron": "^22.0.0",
     "jasmine-core": "~4.3.0",
@@ -41,5 +45,16 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.7.2"
+  },
+  "build": {
+    "appId": "com.gepeto.app",
+    "productName": "Gepeto",
+    "directories": {
+      "output": "build"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }
