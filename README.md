@@ -14,13 +14,17 @@ Gepeto was built with Electron and Angular.
 
 ### API Key
 
-You must provide an API key first in order to process a summary. If you don't have one, Gepeto will take you to the right place.
+You must provide an API key first in order to process a summary.
+
+If you don't have one, Gepeto will take you to the right place, otherwise you can get one from [OpenAI](https://openai.com/).
 
 ### Default location
 
 You can provide a default location to export your files, otherwise Gepeto will export your files in your Documents folder.
 
-Configuration are store in a config.json file inside the User Data using electron-store (something like C:\Users\{your-account}\AppData\Roaming\gepeto).
+Configuration are store in a config.json file inside the User Data using electron-store.
+
+On Windows, the User Data folder is located in the AppData/Roaming folder.
 
 ## Installation
 
