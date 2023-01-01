@@ -1,6 +1,6 @@
 import { SummarizeService } from 'src/app/data/summarize.service';
 import { Component, OnInit, NgZone } from '@angular/core';
-import { ChildrenOutletContexts, OutletContext, Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { fadeAnimation } from './utils/fade-animation';
 
 @Component({
@@ -10,39 +10,41 @@ import { fadeAnimation } from './utils/fade-animation';
   animations: [fadeAnimation],
 })
 export class AppComponent implements OnInit {
-  title = 'gepeto';
+  title = 'Gepeto';
 
   constructor(
     private router: Router,
-    private sumService: SummarizeService,
     private zone: NgZone,
+    private sumService: SummarizeService,
   ) {}
 
   ngOnInit() {
       // @ts-ignore
-    window.api?.receive("fromCredentials", (data: boolean) => {
+    window.api?.receive("fromCredentials", (hasCredentials: boolean) => {
       this.zone.run(() => {
-        this.sumService.setHasCredentials(data);
+        this.sumService.setHasCredentials(hasCredentials);
       });
     });
 
     // @ts-ignore
-    window.api?.receive("fromSummary", (data: Summary) => {
-      if (data) {
+    window.api?.receive("fromSummary", (summary: Summary) => {
+      if (summary) {
         this.zone.run(() => {
-          data.text = JSON.parse(data.text);
-          this.sumService.setSummary(data);
+          summary.text = JSON.parse(summary.text);
+          this.sumService.setSummary(summary);
           this.sumService.setLoading(false);
         });
       }
     });
 
     // @ts-ignore
-    window.api?.receive("fromExport", (data: string) => {
-      if (data) {
+    window.api?.receive("fromExport", (filePath: string) => {
+      if (filePath) {
         this.zone.run(() => {
-          this.sumService.setFilePath(data);
+          this.sumService.setFilePath(filePath);
           this.router.navigate(['/success']);
+          // Reset the preview observables
+          this.sumService.setSummary();
         });
       } else {
         this.zone.run(() => {
@@ -52,20 +54,10 @@ export class AppComponent implements OnInit {
     });
 
     // @ts-ignore
-    window.api?.receive("fromFolderPath", (data: string) => {
-      if (data) {
+    window.api?.receive("fromFolderPath", (folderPath: string) => {
+      if (folderPath) {
         this.zone.run(() => {
-          this.sumService.setFolderPath(data);
-        });
-      }
-    });
-
-    // @ts-ignore
-    window.api?.receive("fromPendingSummary", (data: string) => {
-      if (data) {
-        this.zone.run(() => {
-          this.sumService.setLoading(true);
-          this.router.navigate(['/preview']);
+          this.sumService.setFolderPath(folderPath);
         });
       }
     });

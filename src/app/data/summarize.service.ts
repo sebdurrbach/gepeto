@@ -34,10 +34,10 @@ export class SummarizeService {
 
   // PREVIEW - EXPORT
 
-  private summarySubject = new BehaviorSubject<Summary | null>(null);
+  private summarySubject = new BehaviorSubject<Summary | undefined>(undefined);
   readonly summary$ = this.summarySubject.asObservable();
 
-  setSummary(summary: Summary) {
+  setSummary(summary?: Summary) {
     this.summarySubject.next(summary);
   }
 

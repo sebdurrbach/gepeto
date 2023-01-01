@@ -61,11 +61,18 @@ export class BrowseArticleComponent implements OnInit {
     const withCode = this.codeControl.value;
 
     if (this.urlControl.valid && url && url.length > 0) {
+      // Reset the file path in Preview and start loading
+      this.sumService.setFilePath('');
+      this.sumService.setLoading(true);
+
       // @ts-ignore
       window.api.send('toSummary', { url, withCode });
+
+      // Save last search
       this.sumService.setLastSearch(url);
-      // Reset the file path after a successful search
-      this.sumService.setFilePath('');
+
+      // Navigate to the preview page
+      this.router.navigate(['/preview']);
     } else {
       this.urlControl.markAsTouched();
     }

@@ -26,8 +26,7 @@ contextBridge.exposeInMainWorld(
             "fromSummary", 
             "fromCredentials", 
             "fromExport", 
-            "fromFolderPath", 
-            "fromPendingSummary",
+            "fromFolderPath",
           ];
           
           if (validChannels.includes(channel)) {

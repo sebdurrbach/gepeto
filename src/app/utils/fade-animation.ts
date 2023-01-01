@@ -23,7 +23,7 @@ export const fadeAnimation = trigger('fadeAnimation', [
     ], { optional: true }),
     group([
       query(':enter', [
-        animate('1800ms 1200ms ease-out', style({ opacity: 1 }))
+        animate('1600ms 800ms ease-out', style({ opacity: 1 }))
       ], { optional: true }),
       query(':leave', [
         animate('300ms ease-out', style({ opacity: 0, left: '-24px' }))

@@ -28,7 +28,7 @@ function createWindow() {
 
   win.loadURL(path.join(__dirname, "../dist/gepeto/index.html"));
 
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   win.on('resized', () => {
     saveWinSize(win.getSize());
@@ -94,9 +94,6 @@ ipcMain.on("toFolderPath", async (event, folderPath) => {
  * If the summary is empty, send an error message
  */
 ipcMain.on("toSummary", async (event, args) => {
-  // Send a message to the renderer process to show the loading spinner
-  win?.webContents.send("fromPendingSummary", true);
-
   const response = {
     fileName: '',
     text: '',
