@@ -28,6 +28,7 @@ function createWindow() {
 
   win.loadURL(path.join(__dirname, "../dist/gepeto/index.html"));
 
+  // UNCOMMENT TO OPEN DEVTOOLS IN DEV MODE
   // win.webContents.openDevTools();
 
   win.on('resized', () => {

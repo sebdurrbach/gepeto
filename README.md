@@ -1,27 +1,75 @@
 # Gepeto
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.9.
+**_A smart lazy note-taking assitant_**
 
-## Development server
+## Description
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Gepeto uses GPT-3 (text-davinci-003 algorithm) from OpenAI to summarize articles with a simple link.
 
-## Code scaffolding
+You can then preview the result in a pre-processed markdown format, export it as a .md file and open it with the default system application.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Gepeto was built with Electron and Angular.
 
-## Build
+## Configuration
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### API Key
 
-## Running unit tests
+You must provide an API key first in order to process a summary. If you don't have one, Gepeto will take you to the right place.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Default location
 
-## Running end-to-end tests
+You can provide a default location to export your files, otherwise Gepeto will export your files in your Documents folder.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Configuration are store in a config.json file inside the User Data using electron-store (something like C:\Users\{your-account}\AppData\Roaming\gepeto).
 
-## Further help
+## Installation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Prerequisites
+
+- Node.js
+- NPM
+- Angular CLI
+
+### Install
+
+```bash
+npm install
+```
+
+### Development
+
+Uncomment the following line in app.js to enable the dev tools:
+
+```javascript
+// win.webContents.openDevTools();
+```
+
+### Run
+
+```bash
+npm start
+```
+
+This will build the Angular app and start Electron all at once.
+
+You can run only the Angular front part with the CLI command: `ng serve`.
+
+## Build a distributable package for Windows
+
+### Prerequisites
+
+- Electron Builder
+
+See [Electron Builder](https://www.electron.build/) for more information.
+
+### Build
+
+```bash
+npm run dist
+```
+
+This will create a NSIS Windows installer in the build folder.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
