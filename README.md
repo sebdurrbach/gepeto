@@ -1,6 +1,6 @@
-# Gepeto
-
-**_A smart lazy note-taking assitant_**
+<div align="center">
+  <img src="src/assets/gepeto-home-screen.png" alt="Gepeto" />
+</div>
 
 ## Description
 
