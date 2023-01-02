@@ -1,4 +1,4 @@
-import { SummaryRequest } from '../summary-request';
+import { SummaryRequest } from '../models/summary-request';
 import { Summary } from '../models/summary';
 import { NgZone, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
