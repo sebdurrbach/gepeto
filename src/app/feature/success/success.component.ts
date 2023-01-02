@@ -1,5 +1,6 @@
+import { ApiService } from '../../data/services/api.service';
 import { takeUntil } from 'rxjs/operators';
-import { SummarizeService } from './../../data/summarize.service';
+import { SummarizeService } from '../../data/services/summarize.service';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -15,6 +16,7 @@ export class SuccessComponent implements OnInit {
   filePath: string | undefined;
 
   constructor(
+    private apiService: ApiService,
     private sumService: SummarizeService,
   ) { }
 
@@ -30,8 +32,7 @@ export class SuccessComponent implements OnInit {
 
   openFile() {
     if (this.filePath) {
-      // @ts-ignore
-      window.api.send('toOpenFile', this.filePath);
+      this.apiService.openFile(this.filePath);
     }
   }
 

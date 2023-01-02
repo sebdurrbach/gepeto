@@ -1,9 +1,10 @@
+import { ApiService } from '../../data/services/api.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil, map, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import { SummarizeService } from 'src/app/data/summarize.service';
+import { SummarizeService } from 'src/app/data/services/summarize.service';
 
 @Component({
   selector: 'app-summary-preview',
@@ -22,6 +23,7 @@ export class SummaryPreviewComponent implements OnInit {
   fileName = new FormControl('', [Validators.required]);
 
   constructor(
+    private apiService: ApiService,
     private sumService: SummarizeService,
   ) { }
 
@@ -39,8 +41,7 @@ export class SummaryPreviewComponent implements OnInit {
   export() {
     const fileName = this.fileName.value?.trim();
     if (this.fileName.valid && fileName && fileName.length > 0 && this.text && this.text.length > 0) {
-      // @ts-ignore
-      window.api.send('toExport', { fileName, text: this.text });
+      this.apiService.export({ fileName, text: this.text});
     } else {
       this.fileName.markAsTouched();
     }

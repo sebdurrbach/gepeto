@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SummarizeService } from 'src/app/data/summarize.service';
+import { ApiService } from '../../data/services/api.service';
+import { SummarizeService } from 'src/app/data/services/summarize.service';
 
 @Component({
   selector: 'app-browse-article',
@@ -22,9 +22,9 @@ export class BrowseArticleComponent implements OnInit {
   codeControl = new FormControl(true);
 
   constructor(
+    private apiService: ApiService,
     private sumService: SummarizeService,
     private router: Router,
-    private zone: NgZone,
   ) { }
 
   ngOnInit(): void {
@@ -60,13 +60,12 @@ export class BrowseArticleComponent implements OnInit {
     const url = this.urlControl.value;
     const withCode = this.codeControl.value;
 
-    if (this.urlControl.valid && url && url.length > 0) {
+    if (this.urlControl.valid && url && url.length > 0 && withCode !== null) {
       // Reset the file path in Preview and start loading
       this.sumService.setFilePath('');
       this.sumService.setLoading(true);
 
-      // @ts-ignore
-      window.api.send('toSummary', { url, withCode });
+      this.apiService.summarize({ url, withCode });
 
       // Save last search
       this.sumService.setLastSearch(url);

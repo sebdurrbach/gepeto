@@ -1,9 +1,10 @@
-import { fadeAnimation } from './../../utils/fade-animation';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
-import { SummarizeService } from '../../data/summarize.service';
-import { of, Subject } from 'rxjs';
+import { ApiService } from '../../data/services/api.service';
+import { SummarizeService } from '../../data/services/summarize.service';
+import { fadeAnimation } from './../../utils/fade-animation';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -18,10 +19,11 @@ export class CredentialsComponent implements OnInit, OnDestroy {
 
   hasCredentials$ = this.sumService.hasCredentials$;
 
-  apikey = new FormControl('', [Validators.required]);
-  defaultLocation = new FormControl('', [Validators.required]);
+  keyControl = new FormControl('', [Validators.required]);
+  folderPathControl = new FormControl('', [Validators.required]);
 
   constructor(
+    private apiService: ApiService,
     private sumService: SummarizeService,
   ) { }
 
@@ -32,7 +34,7 @@ export class CredentialsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
     ).subscribe(folderPath => {
       if (folderPath) {
-        this.defaultLocation.setValue(folderPath);
+        this.folderPathControl.setValue(folderPath);
       }
     });
   }
@@ -43,11 +45,10 @@ export class CredentialsComponent implements OnInit, OnDestroy {
   }
 
   saveKey() {
-    if (this.apikey.valid && this.apikey.value && this.apikey.value.length > 0) {
-      // @ts-ignore
-      window.api.send('toCredentials', this.apikey.value);
+    if (this.keyControl.valid && this.keyControl.value && this.keyControl.value.length > 0) {
+      this.apiService.saveKey(this.keyControl.value);
     } else {
-      this.apikey.markAsTouched();
+      this.keyControl.markAsTouched();
     }
   }
 
@@ -60,17 +61,16 @@ export class CredentialsComponent implements OnInit, OnDestroy {
       const file = event.target.files[0];
       if (file.path && file.name) {
         const realPath = file.path.replace(file.name, '').slice(0, -1);
-        this.defaultLocation.setValue(realPath);
+        this.folderPathControl.setValue(realPath);
       } 
     } 
   }
 
-  saveLocation() {
-    if (this.defaultLocation.valid && this.defaultLocation.value && this.defaultLocation.value.length > 0) {
-      // @ts-ignore
-      window.api.send('toFolderPath', this.defaultLocation.value);
+  saveFolderPath() {
+    if (this.folderPathControl.valid && this.folderPathControl.value && this.folderPathControl.value.length > 0) {
+      this.apiService.saveFolderPath(this.folderPathControl.value);
     } else {
-      this.defaultLocation.markAsTouched();
+      this.folderPathControl.markAsTouched();
     }
   }
 
