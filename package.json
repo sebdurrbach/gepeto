@@ -1,9 +1,9 @@
 {
   "name": "gepeto",
   "version": "1.0.0",
-  "main": "src/app.js",
   "author": "Sebastien Durrbach",
   "license": "MIT",
+  "main": "electron/app.js",
   "scripts": {
     "ng": "ng",
     "start": "ng build --base-href ./ && electron .",
@@ -38,6 +38,7 @@
     "@electron-forge/cli": "^6.0.4",
     "@types/jasmine": "~4.0.0",
     "electron": "^22.0.0",
+    "electron-builder": "^23.6.0",
     "jasmine-core": "~4.3.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -52,6 +53,20 @@
     "directories": {
       "output": "build"
     },
+    "files": [
+      "electron/**/*",
+      "dist/**/*",
+      "node_modules/**/*",
+      "!src/**/*",
+      "!**/*.ts",
+      "!*.map",
+      "!package.json",
+      "!package-lock.json",
+      "!node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!node_modules/*.d.ts",
+      "!node_modules/.bin"
+    ],
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true

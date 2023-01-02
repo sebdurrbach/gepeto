@@ -81,6 +81,7 @@ This will create a NSIS Windows installer in the build folder.
 - Code architecture especially on the Electron side
 - Typescript on the backend
 - Error handling
+- Add more configuration to the build process
 - Add more options to the configuration
 - Add more options for the note generation
 - Add a dark mode
