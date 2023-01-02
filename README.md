@@ -4,27 +4,23 @@
 
 ## Description
 
-Gepeto uses GPT-3 (text-davinci-003 algorithm) from OpenAI to summarize articles with a simple link.
-
-You can then preview the result in a pre-processed markdown format, export it as a .md file and open it with the default system application.
+Gepeto uses GPT-3 (text-davinci-003 algorithm) from OpenAI to generate notes from a given article.
 
 Gepeto was built with Electron and Angular as a personal mini-project.
 
-## Configuration
+## Features
 
-### API Key
+- Summarize an article with a simple link
+- Preview the result in a pre-processed markdown format
+- Export the result as a .md file
+- Open the .md file with the default system application
+- Configure your OpenAI API key and export location
 
-You must provide an API key first in order to process a summary.
+## Advisory note
 
-If you don't have one, Gepeto will take you to the right place, otherwise you can get one from [OpenAI](https://openai.com/).
+The text returned by GPT-3 may differ significantly from one try to another for the same article.
 
-### Default location
-
-You can provide a default location to export your files, otherwise Gepeto will export your files in your Documents folder.
-
-Configuration are store in a config.json file inside the User Data using electron-store.
-
-On Windows, the User Data folder is located in the AppData/Roaming folder.
+You can try to generate a new note with the same article to get a different result, or try to adjust the prompt and options given in the api.js file.
 
 ## Installation
 
@@ -34,18 +30,10 @@ On Windows, the User Data folder is located in the AppData/Roaming folder.
 - NPM
 - Angular CLI
 
-### Install
+### Install dependencies
 
 ```bash
 npm install
-```
-
-### Development
-
-Uncomment the following line in app.js to enable the dev tools:
-
-```javascript
-// win.webContents.openDevTools();
 ```
 
 ### Run
@@ -58,11 +46,21 @@ This will build the Angular app and start Electron all at once.
 
 You can run only the Angular front part with the CLI command: `ng serve`.
 
+## Development
+
+Uncomment the following line in app.js to enable the dev tools:
+
+```javascript
+// win.webContents.openDevTools();
+```
+
 ## Build a distributable package for Windows
 
 ### Prerequisites
 
 - Electron Builder
+
+You need to install Electron Builder in order to build the distributable package.
 
 See [Electron Builder](https://www.electron.build/) for more information.
 
@@ -80,7 +78,7 @@ This will create a NSIS Windows installer in the build folder.
 
 ## Improvements to be made
 
-- Code architecture both on the Angular and Electron side
+- Code architecture especially on the Electron side
 - Typescript on the backend
 - Error handling
 - Add more options to the configuration
